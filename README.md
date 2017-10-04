@@ -4,11 +4,15 @@ In React, different sections of your app are separated into parts called "compon
 
 ## Breaking index.js down
 
-If you look at the `index.js` file, you will see two distinct sections of code. Let's walk through these.
+If you look at the `index.js` file, you will see two distinct sections of code. Let's walk through these. For now, we're not going to worry about the `registerServiceWorker();` line, but we'll cover the rest of what's going on.
 
 ### Imports
 
-At the top are the imported files. Let's start with the line that looks like this:
+At the top are the `import` declarations we use to import stuff from other files.
+
+#### Importing other files in our project
+
+Let's start with the line that looks like this
 
 ```
 import App from './App';
@@ -20,7 +24,13 @@ In Ruby, when you require a file, you automatically include 100% of the code in 
 
 If you look in the `App.js` file, you'll see `export default App;` at the bottom. This line makes the App class available for inclusion in other files like `index.js`. If you added a function to `App.js` but didn't export it, you wouldn't be able to import that function anywhere else in your project.
 
+#### Importing from npm packages
+
 We are importing a few parts of React itself in the line with `import React from 'react';`. That line says to import the project located in the `react` npm package and name it `React` (you can tell it's a package and not a file we wrote because it says `from 'react'` and not `from './react'` because that starting `./` indicates the current folder in our project, and a lack of it indicates a package from npm). It will grab whatever class or function in the react library has been exported with `export default`.
+
+#### Importing styles
+
+You'll also notice we're importing a css file with `import './index.css';`. This simply includes that stylesheet on the page when React renders without requiring that you add a stylesheet link in the HTML file like you usually do.
 
 ### Activating React on the Page
 
@@ -102,16 +112,38 @@ or this
 $('button').on('click', this.increment)
 ```
 
-Here is where we need to talk about that weird `this.increment = this.increment.bind(this)` line in the `constructor` function. Just like in jQuery, someone clicks and we the call `increment`, the value of `this` is changed. Inside that function, `this` now refers to the click event object, instead of to our component. Since our event object has no `setState` function defined, the call to `this.setState` isn't going to work.
+Here is where we need to talk about that weird `this.increment = this.increment.bind(this)` line in the `constructor` function. Just like in jQuery, when someone clicks and we call `increment`, the value of `this` is changed. Inside that function, `this` now refers to the click event object, instead of to our component. Since our event object has no `setState` function defined, the call to `this.setState` isn't going to work.
 
 We need a way to enforce that `this` must still refer to our `Counter` component, even when it is called because of a click event. To do this, we use the `bind` function. Bind can be called on any function in JavaScript and it will force that function's `this` to *always* refer to whatever you pass to bind.
 
 When you set `this.increment` to equal `this.increment.bind(this)` in the constructor, what you're doing is forcing that function to always use the `Counter` component as `this`, no matter where it gets called from. This way, when `increment` is called, `this.setState` will call the `setState` function on `Counter`, instead of trying to call `setState` on the click event object.
 
+### Showing the count
 
+None of this would work if we didn't display the count in our state somewhere on the page. We do this on this line
 
-# Add decrement buttons
+```
+<div className="count">{this.state.count}</div>
+```
 
-# Add countBy prop
+with `{this.state.count}`. The squiggly brackets in JSX act like `<%= %>` in erb. If this were erb, this part might look something like `<%= @state.count %>`.
 
-# Add Total display
+## Tying it all together
+
+So, when we go to the page for this React app, here is what happens:
+
+1. `index.html` gets rendered, creating a div on the page with an id of `root`
+2. `index.js` gets run. The `ReactDOM.render` function finds the div with an id of `root`, and renders the `App` component into it.
+3. When the App component is used in `ReactDOM.render`, a new instance of the `App` component is created, and then its `render` function is called.
+4. Since there are several references to the `Counter` component in the `App` component's `render` function, several instances of the `Counter` component will be created, and each of their `render` functions will be called individually. The result of those calls will be added to the parts of the page where `<Counter />` appears in the `render` function of `App`.
+5. When someone clicks on one of the buttons in one of the `Counter` components, that `Counter`s `increment` function will be called, which will increase `state.count` by one and then rerender that component on the page.
+
+And that's React! Read over this description and the code to make sure this all makes sense, and when you feel reasonably comfortable with everything, let's start adding some new stuff.
+
+# Release 1: Add decrement buttons
+
+# Release 2: Add countBy prop
+
+# Release 3: Add Total display
+
+# Release 4 (stretch): Add some buttons to add and remove counters
