@@ -60,7 +60,55 @@ The `super` function works exactly the same way as `super` in Ruby. Since the co
 
 #### Setting the state
 
-State is 
+State is a core concept in React. You set state in a component whenever you need to know specific information to render your component on the page. For example, if you used React to render a form with radio buttons in it, you would most likely store data on which button is currently selected in your state object.
+
+In our case, we are rendering a counter that displays how many times you've pressed a button, so the only information we need is the count, which we want to start at zero. As such, this line
+
+```
+this.state = {
+  count: 0
+};
+```
+
+ensures that the count starts at zero.
+
+We will cover the `this.increment = this.increment.bind(this)` line in a little bit. Hold tight.
+
+### The increment function
+
+When we click that button, we want the count to go up by one. To make that happen, we need to increase `state.count` by one. Whenever you change state, you MUST do it with the `setState` function (defined for us in the parent `React.Component` class. Using `setState` ensures that whenever your state changes, React will also serenader the entire component to make sure what is shown on the page stays accurate.
+
+In this case, when we call the `increment` function, React will increase `state.count` by one, and then rerender the counter component on the page to show the new count.
+
+### The render function
+
+In counter, our render function is a little more interesting. In addition to rendering some elements, we also have to tell our button what to do when pressed and to make sure the current count is shown in the appropriate place.
+
+#### Button behavior
+
+We decide what the button should do by giving it an `onClick` property with a function.
+
+```
+<button onClick={this.increment}>+</button>
+```
+
+This ensures that the `increment` function will get called whenever the button gets clicked, exactly like calling the `on` or `click` functions in jQuery. In jQuery, this same code might look something like this
+
+```
+$('button').click(this.increment)
+```
+or this
+```
+$('button').on('click', this.increment)
+```
+
+Here is where we need to talk about that weird `this.increment = this.increment.bind(this)` line in the `constructor` function. Just like in jQuery, someone clicks and we the call `increment`, the value of `this` is changed. Inside that function, `this` now refers to the click event object, instead of to our component. Since our event object has no `setState` function defined, the call to `this.setState` isn't going to work.
+
+We need a way to enforce that `this` must still refer to our `Counter` component, even when it is called because of a click event. To do this, we use the `bind` function. Bind can be called on any function in JavaScript and it will force that function's `this` to *always* refer to whatever you pass to bind.
+
+When you set `this.increment` to equal `this.increment.bind(this)` in the constructor, what you're doing is forcing that function to always use the `Counter` component as `this`, no matter where it gets called from. This way, when `increment` is called, `this.setState` will call the `setState` function on `Counter`, instead of trying to call `setState` on the click event object.
+
+
 
 # Add decrement buttons
 
