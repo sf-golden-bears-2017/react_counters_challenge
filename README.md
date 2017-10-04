@@ -142,6 +142,10 @@ And that's React! Read over this description and the code to make sure this all 
 
 # Release 1: Add decrement buttons
 
+Your first task is to add some decrement buttons to each counter, so that people can make the counts go down as well as up. When you're done, the page should look like this
+
+![incrementable and decremental buttons](readme_assets/counters_with_decrement_buttons.png)
+
 # Release 2: Add countBy prop
 
 # Release 3: Add Total display
