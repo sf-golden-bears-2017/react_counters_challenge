@@ -146,8 +146,47 @@ Your first task is to add some decrement buttons to each counter, so that people
 
 ![incrementable and decremental buttons](readme_assets/counters_with_decrement_buttons.png)
 
-# Release 2: Add countBy prop
+# Release 2: Props!!
+
+Your second task is to make the counters count in different ways. Make the first counter count up or down by two on each click. Make the second count up or down by four on each click, and make the third count up or down by eight after each click.
+
+We don't want to make three different component files for components that will behave almost exactly the same, so instead we're going to use props.
+
+If components are kind of like functions, then props are kind of like arguments. You pass props to a component and then use them when you render or execute functions in that component. To pass a prop called `myProp` to one of our `Counter`s with a value of `3`, you would write code like this
+
+```
+<Counter myProp={3} />
+```
+
+You'll need those brackets around your prop values *unless* they are strings. If you wanted `myProp` to equal "Hello", you could write it like this
+
+```
+<Counter myProp="Hello" />
+```
+
+When you pass props down in this way, they become accessible in the component they are passed to from the `this.props` object. So you would get the value of `myProp` in `Counter` with `this.props.myProp`.
+
+Props and state are pretty similar in React with one major exception. A slightly oversimplified explanation is that state can be changed (like we do in the `increment` function) and props cannot. When you pass something down to a component like `Counter` as a prop, it is impossible for `Counter` to change the value of it.
+
+So, using props, update the code in `Counter` to increment by a different amount in each one, based on a prop that is passed down to it from above.
 
 # Release 3: Add Total display
+
+Your next task is to add something to the page that will display the total you get from adding up the values of every single counter. This is going to be harder than it sounds.
+
+The problem you'll face is that as currently written, there is no way for the `App` component to get access to the counts in its children. This is by design — React does not let parents access or change the state of their children.
+
+In order for parents to know about the counts of their children, you'll have to rewrite your components so that the counter values are stored in the `this.state` object of the *parent* component, `App`, instead of the child `Counter` components. Then you'll have to pass down one counter value to each `Counter` as props. This way both parents and children will have access to that count data and it will be possible to calculate a total to display.
+
+This change creates a problem: you can't change props, which means your `increment` and `decrement` functions in `Counter` are no longer able to change the counter values.
+
+What you'll have to do to fix this is you'll have to define some increment and decrement functions in `App` instead of `Counter`. Because the counter values are now stored in the `App` component's state, and as such they can be changed by functions written in the `App` component.
+
+Of course, now you have another problem: these new `increment` and `decrement` functions aren't available in `Counter`, but they need to be called when a button in your `Counter` components are clicked. So how do we call them from `Counter` when they are defined in `App`?
+
+The final step to get this all working is you'll need to *pass down your `increment` and `decrement` functions as props, too*.
+
+Once all that is setup correctly, you should be able to both increment and decrement your counters like you could before *and* display a running total of all the counter values added together.
+
 
 # Release 4 (stretch): Add some buttons to add and remove counters
