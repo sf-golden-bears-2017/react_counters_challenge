@@ -174,19 +174,31 @@ So, using props, update the code in `Counter` to increment by a different amount
 
 Your next task is to add something to the page that will display the total you get from adding up the values of every single counter. This is going to be harder than it sounds.
 
-The problem you'll face is that as currently written, there is no way for the `App` component to get access to the counts in its children. This is by design — React does not let parents access or change the state of their children.
+The problem you'll face is that there is currently no way for the `App` component to get access to the counts in its children. React does this by design — parents are not supposed to be able to access or change the state of their children.
 
-In order for parents to know about the counts of their children, you'll have to rewrite your components so that the counter values are stored in the `this.state` object of the *parent* component, `App`, instead of the child `Counter` components. Then you'll have to pass down one counter value to each `Counter` as props. This way both parents and children will have access to that count data and it will be possible to calculate a total to display.
+In order for parents to know about the counts of their children, you'll have to rewrite your components so that all of the counter values are stored in `this.state` of the *parent* component, `App`, instead of the child `Counter` components. Then you'll have to pass down one counter value to each `Counter` as props. This way both parents and children will have access to that count data and it will be possible to calculate a total to display.
 
 This change creates a problem: you can't change props, which means your `increment` and `decrement` functions in `Counter` are no longer able to change the counter values.
 
 What you'll have to do to fix this is you'll have to define some increment and decrement functions in `App` instead of `Counter`. Because the counter values are now stored in the `App` component's state, and as such they can be changed by functions written in the `App` component.
 
-Of course, now you have another problem: these new `increment` and `decrement` functions aren't available in `Counter`, but they need to be called when a button in your `Counter` components are clicked. So how do we call them from `Counter` when they are defined in `App`?
+Of course, now you have yet another problem: these new `increment` and `decrement` functions aren't available in `Counter`, but they need to be called when a button in your `Counter` components are clicked. So how do we call them from `Counter` when they are defined in `App`?
 
 The final step to get this all working is you'll need to *pass down your `increment` and `decrement` functions as props, too*.
+
+You may have some trouble figuring out how to handle maintaining the ability to increment each counter by different amounts. Ask for help on this if it gets you too stuck. Also ask for help if any of the other stuff gets you stuck. React is weird at first for just about everybody.
 
 Once all that is setup correctly, you should be able to both increment and decrement your counters like you could before *and* display a running total of all the counter values added together.
 
 
-# Release 4 (stretch): Add some buttons to add and remove counters
+# Release 4: Add some buttons to add and remove counters
+
+With all the above tools and knowledge in place, the last thing I want you to do is to add a way for users to add or remove `Counter`s. You should be able to create a new `Counter` and choose what amount it should increment or decrement by, and you should be able to delete `Counter`s from the existing list.
+
+You'll need to think for this release about what is needed for this. What information do you need to store in your `state`? What functions will you need to have available? Where should these functions be defined and called from?
+
+Think it through, and then start fiddling.
+
+# Release 5: Refactor
+
+Does everything look nice? Make sure you commit your work once everything is working and then see if there are some ways to clean up any messy bits.
