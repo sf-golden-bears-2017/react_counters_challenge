@@ -1,5 +1,7 @@
 # Intro
 
+In this challenge, you've been provided with some working React code to start with, and you'll be adding a number of new functionality to that code over time. Before we do that, though, let's walk through each part of this code to understand how it all fits together.
+
 In React, different sections of your app are separated into parts called "components". You can think of each component a little bit like a function that takes in some arguments (which are "props" aka "properties" in React) and returns HTML.
 
 ## Breaking index.js down
