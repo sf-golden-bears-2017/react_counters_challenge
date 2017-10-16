@@ -25,7 +25,14 @@ class App extends React.Component {
     this.setState({ count: count })
   }
 
+  total() {
+    return this.state.count.reduce(function(sum, value) {
+      return sum + value }, 0)
+  }
+
+
   render() {
+    const counterArray = this.state.count.slice()
     return (
       <div className="page-center-frame">
         <Counter
@@ -43,6 +50,7 @@ class App extends React.Component {
         increment={ () => this.increment(8, 2) }
         decrement={ () => this.decrement(8, 2) }
         />
+        <span>{this.total()}</span>
       </div>
     );
   }

@@ -1,0 +1,2 @@
+const counters = count.map((count)
+=> <div>{count}</div>)
