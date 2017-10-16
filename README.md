@@ -1,3 +1,9 @@
+# Running the App
+
+In the terminal, run `npm install` from inside this challenge's directory to install all the necessary JavaScript packages (it's the same idea as `bundle install` in Ruby).
+
+Once `npm install` is finished running, run `npm start` to launch the app. Give it a few seconds and it should open up a page for the app in your browser automatically.
+
 # Release 0: Read and Understand this Intro to the Provided Code
 
 In this challenge, you've been provided with some working React code to start with, and you'll be adding a number of new functionality to that code over time. Before we do that, though, let's walk through each part of this code to understand how it all fits together.
@@ -44,7 +50,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 is for. If you look at our `index.html` file in the `public` folder, you'll see a div in the middle that looks like this: `<div id="root"></div>`. When you call `ReactDOM.render`, you have to pass it an HTML element, and React will render a component inside that element on the page.
 
-What this line is saying in total is "grab our `App` element and render it inside an HTML element with an id of `root`".
+What this line is saying in total is "grab our `App` component and render it inside an HTML element with an id of `root`".
 
 ## Breaking down App.js
 
@@ -52,7 +58,7 @@ If you look in `App.js`, you'll see a similar imports section at the top, and th
 
 ### Extends and Inheritance
 
-`extends` is how you use inheritance in React. `extends React.Component` means this class inherits all the functions and behavior of the `React.Component` class. If this were Ruby it might look something like `App < React::Component`.
+`extends` is how you use inheritance in JavaScript. `extends React.Component` means this class inherits all the functions and behavior of the `React.Component` class. If this were Ruby it might look something like `App < React::Component`.
 
 ### The render function and JSX
 
@@ -64,7 +70,7 @@ Finally, we have our `Counter.js` file, which defines the `Counter` component. T
 
 ### The constructor function
 
-The `constructor` function in JavaScript is exactly the same as the `initialize` function in Ruby. It sets up the class when you first create it.
+The `constructor` function in JavaScript is exactly the same as the `initialize` method in Ruby. It sets up the class when you first create it.
 
 #### super
 
@@ -95,6 +101,8 @@ In this case, when we call the `increment` function, React will increase `state.
 ### The render function
 
 In `Counter`, our render function is a little more interesting. In addition to rendering some elements, we also have to tell our button what to do when pressed and to make sure the current count is shown in the appropriate place.
+
+This is using [JSX](#the-render-function-and-jsx) just like the `App` component did. Take a look back at the "read more" links in [that section](#the-render-function-and-jsx) if you feel lost.
 
 #### Button behavior
 
@@ -136,7 +144,7 @@ So, when we go to the page for this React app, here is what happens:
 
 1. `index.html` gets rendered, creating a div on the page with an id of `root`
 2. `index.js` gets run. The `ReactDOM.render` function finds the div with an id of `root`, and puts the `App` component into it.
-3. When the App component is used in `ReactDOM.render`, a new instance of the `App` component is created, and then its `render` function is called.
+3. When the `App` component is used in `ReactDOM.render`, a new instance of the `App` component is created, and then its `render` function is called.
 4. Since there are several references to the `Counter` component in the `App` component's `render` function, several instances of the `Counter` component will be created, and each of their `render` functions will be called individually. The result of those calls will be added to the parts of the page where `<Counter />` appears in the `render` function of `App`.
 5. When someone clicks on one of the buttons in one of the `Counter` components, that `Counter`s `increment` function will be called, which will increase `state.count` by one and then rerender that component on the page.
 
@@ -150,7 +158,7 @@ Your first task is to add some decrement buttons to each counter, so that people
 
 # Release 2: Props!!
 
-Your second task is to make the counters count in different ways. Make the first `Counter` count up or down by **two** on each click. Make the second count up or down by **four** on each click, and make the third count up or down by **eight** after each click.
+Your second task is to make the counters count in different ways. Make the first `Counter` count up or down by **one** on each click. Make the second count up or down by **two** on each click, and make the third count up or down by **three** after each click.
 
 Since each `Counter` is still going to behave almost exactly the same as the others (except for how much they increment by), we don't want to make three different component files. That would be a lot of duplicated code. Instead, we're going to use React's "props".
 
@@ -194,15 +202,76 @@ You may have some trouble figuring out how to handle maintaining the ability to 
 
 Once all that is setup correctly, you should be able to both increment and decrement your counters like you could before *and* display a running total of all the counter values added together.
 
+## Hints
 
-# Release 4: Add some buttons to add and remove counters
+### Hint 1
 
-With all the above tools and knowledge in place, the last thing I want you to do is to add a way for users to add or remove `Counter`s from the page. You should be able to create a new `Counter` and choose what amount it should increment or decrement by, and you should be able to delete `Counter`s from the existing list.
+The `increment` and `decrement` functions can be written to take arguments if you need them to. That isn't the only way to make this work, but it's a good option.
+
+### Hint 2
+
+If you do decide to write the `increment` and `decrement` functions to take arguments, you may have to replace `{this.increment}` with "arrow" function syntax like this `{() => this.increment(someArgument)}`. More reading on this [here](http://javascript.info/function-expressions-arrows#arrow-functions) and [here](http://javascript.info/arrow-functions).
+
+
+# Release 4: Use the array `.map` function to display `Counter` components
+
+It's time to get familiar with how to use [the array `.map` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) in React.
+
+Using [the array `.map` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) in React  component rendering is the equivalent of using `.each do` blocks in `.erb` files in Ruby. Where in Ruby, you might write something like this
+
+```
+<ul>
+	<% @pets.each do |pet| %>
+		<li>
+			<%= render partial: 'pet_info', locals: { pet: pet } %>
+		</li>
+	<% end %>
+</ul>
+```
+
+in React, you can write code like this (note the [arrow function syntax](http://javascript.info/function-expressions-arrows#arrow-functions))
+
+```
+<ul>
+	{this.state.pets.map((pet) =>
+		<li>
+			<PetInfo pet={pet} />
+		</li>
+	)}
+</ul>
+```
+
+`.map` stands in for `.each`, `(pet) =>` stands in for `do |pet|`, and instead of partials with a `locals` hash, we have a component with props.
+
+You may notice you get an error about setting a `key` prop when writing code like this. Don't worry about that for now, but do look it up later if you find time. You can find some info on it in [the React documentation for mapping lists](https://reactjs.org/docs/lists-and-keys.html) (it's probably worth checking out this documentation even if you don't deal with the `key` error right now).
+
+For this release, you'll want to use this `.map` functionality with your list of `Counter` components. Instead of several separate `<Counter />` statements in your `render` function, there should be just one, but it should be inside a `.map` call that iterates over the data for your counters. If the data on your counter values isn't already an array, you'll have to convert it to one to make this work.
+
+## Hint:
+
+If you look at [the documentation for the `.map` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map), you'll notice that the callback function has three arguments.
+
+Take a look at this syntax they show you (this is copied directly from the documentation page):
+
+```
+var new_array = arr.map(function callback(currentValue, index, array) {
+    // Return element for new_array
+}[, thisArg])
+```
+
+See the part that says `function callback(currentValue, index, array)`? That means that the part of the example code above that looks like `.map((pet) =>` could be written like this `.map((pet, index) =>` if you wanted to have a variable representing the current index of the array, or like this `.map((pet, index, wholeArray) =>` if you wanted access to both the current index and the entire original array.
+
+For your counters, this means there's a way to have access to both a counter's current value and its index in an array of counter values. You might find this useful for making sure each counter still increments by the amount you want it to increment by.
+
+
+# Release 5: Add some buttons to add and remove counters
+
+With all the above tools and knowledge in place, the last thing I want you to do is to add a way for users to add or remove `Counter`s from the page. You should be able to create new `Counter` components, and you should be able to delete `Counter`s from the existing list.
 
 You'll need to think for this release about what is needed for this. What information do you need to store in your `state`? What functions will you need to have available? Where should these functions be defined and called from?
 
 Think it through, and then start fiddling.
 
-# Release 5: Refactor
+# Release 6: Refactor
 
 Does everything look nice? Make sure you commit your work once everything is working and then see if there are some ways to clean up any messy bits.
