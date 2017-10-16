@@ -261,7 +261,7 @@ var new_array = arr.map(function callback(currentValue, index, array) {
 
 See the part that says `function callback(currentValue, index, array)`? That means that the part of the example code above that looks like `.map((pet) =>` could be written like this `.map((pet, index) =>` if you wanted to have a variable representing the current index of the array, or like this `.map((pet, index, wholeArray) =>` if you wanted access to both the current index and the entire original array.
 
-For your counters, this means there's a way to have access to both a counter's current value and its index in an array of counter values. You might find this useful for making sure each counter still increments by the amount you want it to increment by.
+For your counters, this means there's a way to have access to both a counter's current value and its index in an array of counter values. You might find this useful for making sure your increment and decrement functions are incrementing the right counter value.
 
 
 # Release 5: Add some buttons to add and remove counters
