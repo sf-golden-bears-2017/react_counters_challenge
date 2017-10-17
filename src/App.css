@@ -8,3 +8,9 @@ h1, p {
   align-items: center;
   min-height: 100vh;
 }
+
+#form {
+  position: fixed;
+  left: 40%;
+  bottom: 230px;
+}
