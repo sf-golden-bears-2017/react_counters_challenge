@@ -206,11 +206,19 @@ Once all that is setup correctly, you should be able to both increment and decre
 
 ### Hint 1
 
-The `increment` and `decrement` functions can be written to take arguments if you need them to. That isn't the only way to make this work, but it's a good option.
+The `increment` and `decrement` functions can be written to take arguments if you need them to.
 
 ### Hint 2
 
-If you do decide to write the `increment` and `decrement` functions to take arguments, you may have to replace `{this.increment}` with "arrow" function syntax like this `{() => this.increment(someArgument)}`. More reading on this [here](http://javascript.info/function-expressions-arrows#arrow-functions) and [here](http://javascript.info/arrow-functions).
+If you write the `increment` and `decrement` functions to take arguments, you may have to replace `{this.increment}` with "arrow" function syntax like this `{() => this.increment(someArgument)}`. More reading on this [here](http://javascript.info/function-expressions-arrows#arrow-functions) and [here](http://javascript.info/arrow-functions).
+
+Remember that code like `<MyComponent onClick={this.increment} />` is passing a *function* to `onClick`, while code like this `<MyComponent onClick={this.increment()} />` (note the parentheses after `increment`) is *calling* the function and passing *its return value* to `onClick`. This is a very important distinction. You always want the first case (passing a function) and not the second one (passing the return value of calling that function).
+
+You should always be passing a function to `onClick`, so if you start needing to pass arguments to `increment` and `decrement` functions, you'll want to keep in mind that `<MyComponent onClick={this.increment(someArgument, someOtherArgument)} />` probably isn't what you want to be doing, because it's calling the function.
+
+When our function had no arguments, we could avoid calling it by just not putting parentheses after it (i.e. `onClick={this.increment}`). But what do we do if we need to pass arguments? The only way to pass arguments is by, well, *passing* them (i.e. `onClick={this.increment(arg1, arg2)}`. But doing that is going to call the function, which we can't do.
+
+This is where the arrow syntax comes in. Since `<MyComponent onClick={this.increment(arg1, arg2)} />` is calling a function (bad), we need a way to pass those arguments without calling the function *yet*. To do that, we can *wrap the function call in another function* with the arrow syntax. It would look something like this `<MyComponent onClick={() => this.increment(someArgument, someOtherArgument)} />`. That `() =>` syntax means that instead of calling the `increment` function with those arguments and passing the return value, you are instead wrapping the code where you call `increment` inside another function. This way, you're still passing a function, and  you're still making sure it gets the desired arguments, but you avoid the problem of calling it right away. React can save that function until someone clicks and run it at that time, just like we want.
 
 
 # Release 4: Use the array `.map` function to display `Counter` components
