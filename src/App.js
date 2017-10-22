@@ -9,23 +9,26 @@ class App extends React.Component {
       counters: [
         { changeBy: 1, count: 0 },
         { changeBy: 2, count: 0 },
-        { changeBy: 3, count: 0 }
+        { changeBy: 3, count: 0 },
+        { changeBy: 4, count: 0 },
+        { changeBy: 5, count: 0 }
       ],
       total: 0
     };
 
     this.updateCounter = this.updateCounter.bind(this)
-    this.updateTotal = this.updateTotal.bind(this)
+    this.calculateTotal = this.calculateTotal.bind(this)
   }
+
   updateCounter(index, sign) {
     let counters = this.state.counters;
     counters[index].count += sign * counters[index].changeBy
-    let total = this.updateTotal()
-    this.setState({ counters , total})
+    const total = this.calculateTotal()
+    this.setState({ counters , total })
   }
 
-  updateTotal() {
-    let total = this.state.counters.reduce((sum, num) => {
+  calculateTotal() {
+    const total = this.state.counters.reduce((sum, num) => {
       return sum + num.count
     }, 0);
     return total;
@@ -34,17 +37,12 @@ class App extends React.Component {
   render() {
     return (
       <div className="page-center-frame">
-        <Counter counter={this.state.counters[0]}
-        i={() => this.updateCounter(0,1)}
-        d={() => this.updateCounter(0,-1)} />
-
-        <Counter counter={this.state.counters[1]}
-        i={() => this.updateCounter(1,1)}
-        d={() => this.updateCounter(1,-1)} />
-
-        <Counter counter={this.state.counters[2]}
-        i={() => this.updateCounter(2,1)}
-        d={() => this.updateCounter(2,-1)} />
+        {this.state.counters.map((element, index)=>
+          <Counter counter={element}
+          increment={() => this.updateCounter(index,1)}
+          decrement={() => this.updateCounter(index,-1)}
+          key={index} />
+        )}
       </div>
     );
   }
