@@ -14,20 +14,12 @@ class App extends React.Component {
       total: 0
     };
 
-    this.increment = this.increment.bind(this)
-    this.decrement = this.decrement.bind(this)
+    this.updateCounter = this.updateCounter.bind(this)
     this.updateTotal = this.updateTotal.bind(this)
   }
-  increment(index) {
+  updateCounter(index, sign) {
     let counters = this.state.counters;
-    counters[index].count += counters[index].changeBy
-    let total = this.updateTotal()
-    this.setState({ counters , total})
-  }
-
-  decrement(index) {
-    let counters = this.state.counters;
-    counters[index].count -= counters[index].changeBy
+    counters[index].count += sign * counters[index].changeBy
     let total = this.updateTotal()
     this.setState({ counters , total})
   }
@@ -40,20 +32,19 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.total)
     return (
       <div className="page-center-frame">
         <Counter counter={this.state.counters[0]}
-        i={() => this.increment(0)}
-        d={() => this.decrement(0)} />
+        i={() => this.updateCounter(0,1)}
+        d={() => this.updateCounter(0,-1)} />
 
         <Counter counter={this.state.counters[1]}
-        i={() => this.increment(1)}
-        d={() => this.decrement(1)} />
+        i={() => this.updateCounter(1,1)}
+        d={() => this.updateCounter(1,-1)} />
 
         <Counter counter={this.state.counters[2]}
-        i={() => this.increment(2)}
-        d={() => this.decrement(2)} />
+        i={() => this.updateCounter(2,1)}
+        d={() => this.updateCounter(2,-1)} />
       </div>
     );
   }
