@@ -1,5 +1,6 @@
 import React from 'react';
 import Counter from './Counter';
+import Total from './Total';
 import './App.css';
 
 class App extends React.Component {
@@ -43,6 +44,7 @@ class App extends React.Component {
           decrement={() => this.updateCounter(index,-1)}
           key={index} />
         )}
+        <Total total={this.state.total}/>
       </div>
     );
   }
