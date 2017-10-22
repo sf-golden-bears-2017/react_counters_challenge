@@ -16,19 +16,31 @@ class App extends React.Component {
 
     this.increment = this.increment.bind(this)
     this.decrement = this.decrement.bind(this)
+    this.updateTotal = this.updateTotal.bind(this)
   }
   increment(index) {
     let counters = this.state.counters;
     counters[index].count += counters[index].changeBy
-    this.setState({ counters })
+    let total = this.updateTotal()
+    this.setState({ counters , total})
   }
 
   decrement(index) {
     let counters = this.state.counters;
     counters[index].count -= counters[index].changeBy
-    this.setState({ counters })
+    let total = this.updateTotal()
+    this.setState({ counters , total})
   }
+
+  updateTotal() {
+    let total = this.state.counters.reduce((sum, num) => {
+      return sum + num.count
+    }, 0);
+    return total;
+  }
+
   render() {
+    console.log(this.state.total)
     return (
       <div className="page-center-frame">
         <Counter counter={this.state.counters[0]}
