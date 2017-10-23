@@ -10,15 +10,21 @@ class App extends React.Component {
       counters: [
         { changeBy: 1, count: 0 },
         { changeBy: 2, count: 0 },
-        { changeBy: 3, count: 0 },
-        { changeBy: 4, count: 0 },
-        { changeBy: 5, count: 0 }
+        { changeBy: 3, count: 0 }
       ],
       total: 0
     };
 
     this.updateCounter = this.updateCounter.bind(this)
     this.calculateTotal = this.calculateTotal.bind(this)
+    this.removeCounter = this.removeCounter.bind(this)
+  }
+
+  removeCounter(index) {
+    let counters = this.state.counters;
+    counters.splice(index, 1)
+    const total = this.calculateTotal()
+    this.setState({ counters , total })
   }
 
   updateCounter(index, sign) {
@@ -42,6 +48,7 @@ class App extends React.Component {
           <Counter counter={element}
           increment={() => this.updateCounter(index,1)}
           decrement={() => this.updateCounter(index,-1)}
+          remove={() => this.removeCounter(index)}
           key={index} />
         )}
         <Total total={this.state.total}/>

@@ -8,3 +8,8 @@ h1, p {
   align-items: center;
   min-height: 100vh;
 }
+
+#total {
+  font-size: 28px;
+  margin: 5px;
+}
