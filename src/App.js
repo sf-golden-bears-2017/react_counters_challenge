@@ -1,6 +1,7 @@
 import React from 'react';
 import Counter from './Counter';
 import Total from './Total';
+import NewCounter from './NewCounter';
 import './App.css';
 
 class App extends React.Component {
@@ -18,6 +19,23 @@ class App extends React.Component {
     this.updateCounter = this.updateCounter.bind(this)
     this.calculateTotal = this.calculateTotal.bind(this)
     this.removeCounter = this.removeCounter.bind(this)
+  }
+
+  addCounter(event) {
+    event.preventDefault();
+    let changeByVal = event.target.number.value
+
+    if (!isNaN(changeByVal)) {
+      let counters = this.state.counters;
+      let newCounterHash = {}
+
+
+      newCounterHash.changeBy = changeByVal
+      newCounterHash.count = 0
+      counters.push(newCounterHash)
+
+      this.setState({ counters })
+    }
   }
 
   removeCounter(index) {
@@ -52,6 +70,7 @@ class App extends React.Component {
           key={index} />
         )}
         <Total total={this.state.total}/>
+        <NewCounter add={this.addCounter.bind(this)}/>
       </div>
     );
   }
