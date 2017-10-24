@@ -1,12 +1,12 @@
-import React from 'react';
-import Counter from './Counter';
-import Total from './Total';
-import NewCounter from './NewCounter';
-import './App.css';
+import React from 'react'
+import Counter from './Counter'
+import Total from './Total'
+import NewCounter from './NewCounter'
+import './App.css'
 
 class App extends React.Component {
   constructor() {
-    super();
+    super()
     this.state = {
       counters: [
         { changeBy: 1, count: 0 },
@@ -14,7 +14,7 @@ class App extends React.Component {
         { changeBy: 3, count: 0 }
       ],
       total: 0
-    };
+    }
 
     this.updateCounter = this.updateCounter.bind(this)
     this.calculateTotal = this.calculateTotal.bind(this)
@@ -23,11 +23,11 @@ class App extends React.Component {
   }
 
   addCounter(event) {
-    event.preventDefault();
+    event.preventDefault()
     let changeByVal = event.target.number.value
 
     if (!isNaN(changeByVal)) {
-      let counters = this.state.counters;
+      let counters = this.state.counters
       let newCounterHash = {}
 
 
@@ -40,14 +40,14 @@ class App extends React.Component {
   }
 
   removeCounter(index) {
-    let counters = this.state.counters;
+    let counters = this.state.counters
     counters.splice(index, 1)
     const total = this.calculateTotal()
     this.setState({ counters , total })
   }
 
   updateCounter(index, sign) {
-    let counters = this.state.counters;
+    let counters = this.state.counters
     counters[index].count += sign * counters[index].changeBy
     const total = this.calculateTotal()
     this.setState({ counters , total })
@@ -56,8 +56,8 @@ class App extends React.Component {
   calculateTotal() {
     const total = this.state.counters.reduce((sum, num) => {
       return sum + num.count
-    }, 0);
-    return total;
+    }, 0)
+    return total
   }
 
   render() {
@@ -77,8 +77,8 @@ class App extends React.Component {
           <NewCounter add={this.addCounter} clear={true}/>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

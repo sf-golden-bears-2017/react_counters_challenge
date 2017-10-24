@@ -1,6 +1,6 @@
-import React from 'react';
-import './Counter.css';
-import './App.css';
+import React from 'react'
+import './Counter.css'
+import './App.css'
 
 
 class NewCounter extends React.Component {
@@ -13,7 +13,7 @@ class NewCounter extends React.Component {
           <input type="submit" value="Add Counter"/>
         </form>
       </div>
-    );
+    )
   }
 }
 

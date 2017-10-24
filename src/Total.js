@@ -1,6 +1,6 @@
-import React from 'react';
-import './Counter.css';
-import './App.css';
+import React from 'react'
+import './Counter.css'
+import './App.css'
 
 
 class Total extends React.Component {
@@ -10,7 +10,7 @@ class Total extends React.Component {
       <span id="total">Total</span>
         <div className="count">{this.props.total}</div>
       </div>
-    );
+    )
   }
 }
 
