@@ -19,6 +19,7 @@ class App extends React.Component {
     this.updateCounter = this.updateCounter.bind(this)
     this.calculateTotal = this.calculateTotal.bind(this)
     this.removeCounter = this.removeCounter.bind(this)
+    this.addCounter = this.addCounter.bind(this)
   }
 
   addCounter(event) {
@@ -61,16 +62,20 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="page-center-frame">
-        {this.state.counters.map((element, index)=>
-          <Counter counter={element}
-          increment={() => this.updateCounter(index,1)}
-          decrement={() => this.updateCounter(index,-1)}
-          remove={() => this.removeCounter(index)}
-          key={index} />
-        )}
-        <Total total={this.state.total}/>
-        <NewCounter add={this.addCounter.bind(this)}/>
+      <div>
+        <div className="page-center-frame">
+          {this.state.counters.map((element, index)=>
+            <Counter counter={element}
+            increment={() => this.updateCounter(index,1)}
+            decrement={() => this.updateCounter(index,-1)}
+            remove={() => this.removeCounter(index)}
+            key={index} />
+          )}
+          <Total total={this.state.total}/>
+        </div>
+        <div className="page-center-frame">
+          <NewCounter add={this.addCounter} clear={true}/>
+        </div>
       </div>
     );
   }

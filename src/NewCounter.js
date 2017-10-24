@@ -7,7 +7,7 @@ class NewCounter extends React.Component {
   render() {
     return(
       <div>
-        <form onSubmit={this.props.add}>
+        <form onSubmit={this.props.add} >
           <input type="text" name="number" />
           <br />
           <input type="submit" value="Add Counter"/>
