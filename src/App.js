@@ -35,6 +35,7 @@ class App extends React.Component {
       newCounterHash.count = 0
       counters.push(newCounterHash)
 
+      document.getElementById("new-counter-form").reset();
       this.setState({ counters })
     }
   }
