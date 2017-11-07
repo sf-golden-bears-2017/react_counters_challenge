@@ -31,13 +31,13 @@ class App extends React.Component {
 
   render() {
     return (
-      <ul>
+      // <ul>
+      <div className="page-center-frame">
         {this.state.counters.map((counter, index) =>
-          <li>
             <Counter counter={ counter } increment={() => this.increment(index)} decrement={() => this.decrement(index)}   />
-          </li>
           )}
-      </ul>
+      </div>
+      // </ul>
     );
   }
 }
