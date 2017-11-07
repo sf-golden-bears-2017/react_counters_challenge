@@ -6,21 +6,23 @@ class App extends React.Component {
   constructor(){
     super();
     this.state = {
-      count1:0,
-      count2:0,
-      count3:0
+      counters: [{count:0, changeBy: 1}, {count:0, changeBy: 2}, {count:0, changeBy: 3} ]
     }
 
     this.increment = this.increment.bind(this)
     this.decrement = this.decrement.bind(this)
   }
 
-  increment(count,number) {
-    this.setState({ [count]: this.state[count] + number })
+  increment(index) {
+    const oldCounterArray = this.state.counters
+    oldCounterArray[index].count += oldCounterArray[index].changeBy
+    this.setState({ counters: oldCounterArray })
   }
 
-  decrement(count,number) {
-    this.setState({ [count]: this.state[count] - number })
+  decrement(index) {
+    const oldCounterArray = this.state.counters
+    oldCounterArray[index].count -= oldCounterArray[index].changeBy
+    this.setState({ counters: oldCounterArray })
   }
 
   total(){
@@ -29,14 +31,26 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="page-center-frame">
-        <Counter myProp={this.state.count1} myProp3={() => this.increment("count1",1)} myProp4={() => this.decrement("count1", 1)}/>
-        <Counter myProp={this.state.count2} myProp3={() => this.increment("count2",2)} myProp4={() => this.decrement("count2", 2)}  />
-        <Counter myProp={this.state.count3} myProp3={() => this.increment("count3",3)} myProp4={() => this.decrement("count3", 3)} />
-        <h1>Total: {this.total()}</h1>
-      </div>
+      <ul>
+        {this.state.counters.map((counter, index) =>
+          <li>
+            <Counter counter={ counter } increment={() => this.increment(index)} decrement={() => this.decrement(index)}   />
+          </li>
+          )}
+      </ul>
     );
   }
 }
 
 export default App
+
+  // render() {
+  //   return (
+  //     <div className="page-center-frame">
+  //       <Counter myProp={this.state.count1} myProp3={() => this.increment("count1",1)} myProp4={() => this.decrement("count1", 1)}/>
+  //       <Counter myProp={this.state.count2} myProp3={() => this.increment("count2",2)} myProp4={() => this.decrement("count2", 2)}  />
+  //       <Counter myProp={this.state.count3} myProp3={() => this.increment("count3",3)} myProp4={() => this.decrement("count3", 3)} />
+  //       <h1>Total: {this.total()}</h1>
+  //     </div>
+  //   );
+  // }
