@@ -15,7 +15,7 @@ class App extends React.Component {
     this.increment = this.increment.bind(this)
     this.decrement = this.decrement.bind(this)
     this.removeCounter = this.removeCounter.bind(this)
-    this.addCounter = this.addCounter.bind(this)
+    // this.addCounter = this.addCounter.bind(this)
     this.total = this.total.bind(this)
   }
 
@@ -23,18 +23,24 @@ class App extends React.Component {
     axios.get(`http://numbers-api.herokuapp.com/`).then(res => {
       const hunter_counters = res.data
       this.setState({counters: hunter_counters})
+      console.log(res.status)
     });
+  }
+
+  updateCounter(index, counter_id){
+    const counter = this.state.counters[index]
+    axios.put(`http://numbers-api.herokuapp.com/counters/${counter_id}`, { value: counter.value += 1})
   }
 
   increment(index) {
     const oldCounterArray = this.state.counters
-    oldCounterArray[index].count += oldCounterArray[index].changeBy
+    oldCounterArray[index].value += 1
     this.setState({ counters: oldCounterArray })
   }
 
   decrement(index) {
     const oldCounterArray = this.state.counters
-    oldCounterArray[index].count -= oldCounterArray[index].changeBy
+    oldCounterArray[index].value -= 1
     this.setState({ counters: oldCounterArray })
   }
 
@@ -44,27 +50,18 @@ class App extends React.Component {
     this.setState({ counters: oldCounterArray })
   }
 
-  addCounter(e) {
-    e.preventDefault()
-    const oldCounterArray = this.state.counters
-    oldCounterArray.push({count: 0, changeBy: this.state.newChangeBy})
-    this.setState({ counters: oldCounterArray })
-  }
+  // addCounter(e) {
+  //   e.preventDefault()
+  //   const oldCounterArray = this.state.counters
+  //   oldCounterArray.push({count: 0, changeBy: this.state.newChangeBy})
+  //   this.setState({ counters: oldCounterArray })
+  // }
 
   total(){
     return this.state.counters.reduce(function(total, counter) {
-      return total + counter.count;
+      return total + counter.value;
     }, 0)
   }
-
-
-  // $('input').on('change', this.setValue)
-
-  // setValue(event) {
-  //   event.preventDefault()
-
-  //   $('input').value = event.target.value
-  // }
 
   render() {
     return (
@@ -93,4 +90,13 @@ export default App
   //       <h1>Total: {this.total()}</h1>
   //     </div>
   //   );
+  // }
+
+
+  // $('input').on('change', this.setValue)
+
+  // setValue(event) {
+  //   event.preventDefault()
+
+  //   $('input').value = event.target.value
   // }
