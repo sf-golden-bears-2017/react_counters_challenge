@@ -17,6 +17,7 @@ constructor() {
   this.decrement = this.decrement.bind(this)
   this.total = this.total.bind(this)
   this.addCounterButton = this.addCounterButton.bind(this)
+  this.removeCounterButton = this.removeCounterButton.bind(this)
 }
 
   increment(index) {
@@ -41,6 +42,12 @@ constructor() {
     this.setState({counters})
   }
 
+  removeCounterButton() {
+    const counters = this.state.counters
+    counters.splice(-1,1)
+    this.setState({counters})
+  }
+
   render() {
     return (
       <div className="parent-container">
@@ -59,7 +66,8 @@ constructor() {
           </div>
 
           <div className="add-button">
-            <button onClick={this.addCounterButton}>+ counter</button>
+            <button onClick={this.addCounterButton}>+ COUNTER</button>
+            <button onClick={this.removeCounterButton}>- COUNTER</button>
           </div>
         </div>
       </div>
