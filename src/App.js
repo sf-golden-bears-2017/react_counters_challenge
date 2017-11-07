@@ -13,6 +13,7 @@ class App extends React.Component {
     this.increment = this.increment.bind(this)
     this.decrement = this.decrement.bind(this)
     this.removeCounter = this.removeCounter.bind(this)
+    this.total = this.total.bind(this)
   }
 
   increment(index) {
@@ -34,7 +35,9 @@ class App extends React.Component {
   }
 
   total(){
-    return this.state.count1 + this.state.count2 + this.state.count3
+    return this.state.counters.reduce(function(total, counter) {
+      return total + counter.count;
+    }, 0)
   }
 
   render() {
@@ -44,6 +47,7 @@ class App extends React.Component {
         {this.state.counters.map((counter, index) =>
             <Counter counter={ counter } increment={() => this.increment(index)} decrement={() => this.decrement(index)}  unmountMe={() => this.removeCounter(index)} />
           )}
+          <h1>Total: {this.total()}</h1>
       </div>
       // </ul>
     );
