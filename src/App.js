@@ -1,13 +1,15 @@
 import React from 'react';
 import Counter from './Counter';
 import './App.css';
+import axios from 'axios'
 
 class App extends React.Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
-      counters: [{count:0, changeBy: 1}, {count:0, changeBy: 2}, {count:0, changeBy: 3} ],
+      counters: [1, 2],
       newChangeBy: 1
+      // {count:0, changeBy: 1}, {count:0, changeBy: 2}, {count:0, changeBy: 3}
     }
 
     this.increment = this.increment.bind(this)
@@ -15,6 +17,13 @@ class App extends React.Component {
     this.removeCounter = this.removeCounter.bind(this)
     this.addCounter = this.addCounter.bind(this)
     this.total = this.total.bind(this)
+  }
+
+  componentDidMount(){
+    axios.get(`http://numbers-api.herokuapp.com/`).then(res => {
+      const hunter_counters = res.data
+      this.setState({counters: hunter_counters})
+    });
   }
 
   increment(index) {
