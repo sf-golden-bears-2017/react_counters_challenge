@@ -29,19 +29,27 @@ class App extends React.Component {
 
   updateCounter(index, counter_id){
     const counter = this.state.counters[index]
-    axios.put(`http://numbers-api.herokuapp.com/counters/${counter_id}`, { value: counter.value += 1})
+    console.log('riggityWRECKED')
+    axios.put(`http://numbers-api.herokuapp.com/counters/${counter_id}`, { counter: { count_by: 1 } }
+      ).then(function (response) {
+        console.log(response)
+        // debugger
+        // this.setState()
+      })
   }
 
-  increment(index) {
+  increment(index, counter_id) {
     const oldCounterArray = this.state.counters
     oldCounterArray[index].value += 1
     this.setState({ counters: oldCounterArray })
+    this.updateCounter(index, counter_id)
   }
 
-  decrement(index) {
+  decrement(index, counter_id) {
     const oldCounterArray = this.state.counters
     oldCounterArray[index].value -= 1
     this.setState({ counters: oldCounterArray })
+    this.updateCounter(index, counter_id)
   }
 
   removeCounter(index) {
@@ -67,7 +75,7 @@ class App extends React.Component {
     return (
       <div className="page-center-frame">
         {this.state.counters.map((counter, index) =>
-            <Counter counter={ counter } increment={() => this.increment(index)} decrement={() => this.decrement(index)}  unmountMe={() => this.removeCounter(index)} />
+            <Counter counter={ counter } increment={() => this.increment(index, counter.id)} decrement={() => this.decrement(index, counter.id)}  unmountMe={() => this.removeCounter(index)  } />
           )}
           <h1>Total: {this.total()}</h1>
           <form onSubmit={this.addCounter}>
