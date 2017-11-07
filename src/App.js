@@ -6,11 +6,13 @@ class App extends React.Component {
   constructor(){
     super();
     this.state = {
-      counters: [{count:0, changeBy: 1}, {count:0, changeBy: 2}, {count:0, changeBy: 3} ]
+      counters: [{count:0, changeBy: 1}, {count:0, changeBy: 2}, {count:0, changeBy: 3} ],
+      renderChild: true,
     }
 
     this.increment = this.increment.bind(this)
     this.decrement = this.decrement.bind(this)
+    this.removeCounter = this.removeCounter.bind(this)
   }
 
   increment(index) {
@@ -25,6 +27,12 @@ class App extends React.Component {
     this.setState({ counters: oldCounterArray })
   }
 
+  removeCounter(index) {
+    const oldCounterArray = this.state.counters
+    oldCounterArray.splice(index, 1)
+    this.setState({ counters: oldCounterArray })
+  }
+
   total(){
     return this.state.count1 + this.state.count2 + this.state.count3
   }
@@ -34,7 +42,7 @@ class App extends React.Component {
       // <ul>
       <div className="page-center-frame">
         {this.state.counters.map((counter, index) =>
-            <Counter counter={ counter } increment={() => this.increment(index)} decrement={() => this.decrement(index)}   />
+            <Counter counter={ counter } increment={() => this.increment(index)} decrement={() => this.decrement(index)}  unmountMe={() => this.removeCounter(index)} />
           )}
       </div>
       // </ul>
