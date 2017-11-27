@@ -6,9 +6,9 @@ class App extends React.Component {
   render() {
     return (
       <div className="page-center-frame">
-        <Counter />
-        <Counter />
-        <Counter />
+        <Counter myProp={1} />
+        <Counter myProp={2} />
+        <Counter myProp={3} />
       </div>
     );
   }
