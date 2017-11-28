@@ -6,7 +6,7 @@ Once `npm install` is finished running, run `npm start` to launch the app. Give 
 
 # Release 0: Read and Understand this Intro to the Provided Code
 
-In this challenge, you've been provided with some working React code to start with, and you'll be adding a number of new pieces of functionality to that code over time. Before we do that, though, let's walk through each part of this code to understand how it all fits together.
+In this challenge, you've been provided with some working React code to start with, and you'll be adding a number of new functionality to that code over time. Before we do that, though, let's walk through each part of this code to understand how it all fits together.
 
 In React, different sections of your app are separated into parts called "components". You can think of each component a little bit like a function that takes in some arguments (which are "props" aka "properties" in React) and returns HTML.
 
@@ -50,7 +50,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 is for. If you look at our `index.html` file in the `public` folder, you'll see a div in the middle that looks like this: `<div id="root"></div>`. When you call `ReactDOM.render`, you have to pass it an HTML element, and React will render a component inside that element on the page.
 
-What this line is saying in total is *"grab our `App` component and render it inside an HTML element with an id of `root`"*.
+What this line is saying in total is "grab our `App` component and render it inside an HTML element with an id of `root`".
 
 ## Breaking down App.js
 
@@ -94,7 +94,7 @@ We will cover the `this.increment = this.increment.bind(this)` line in a little 
 
 ### The increment function
 
-When we click that button, we want the count to go up by one. To make that happen, we need to increase `state.count` by one. Whenever you change state, you MUST do it with the `setState` function (defined for us in the parent `React.Component` class). Using `setState` ensures that whenever your state changes, React will also rerender the entire component to make sure what is shown on the page stays accurate.
+When we click that button, we want the count to go up by one. To make that happen, we need to increase `state.count` by one. Whenever you change state, you MUST do it with the `setState` function (defined for us in the parent `React.Component` class. Using `setState` ensures that whenever your state changes, React will also rerender the entire component to make sure what is shown on the page stays accurate.
 
 In this case, when we call the `increment` function, React will increase `state.count` by one, and then rerender the counter component on the page to show the new count.
 
@@ -122,7 +122,7 @@ or this
 $('button').on('click', this.increment)
 ```
 
-Here is where we need to talk about that weird `this.increment = this.increment.bind(this)` line in the `constructor` function. Just like in jQuery, when someone clicks and we call `increment`, the value of `this` is changed. Inside that function, **`this` now refers to the click event object, instead of to our component**. Since the click event object has no `setState` function defined, the call to `this.setState` isn't going to work.
+Here is where we need to talk about that weird `this.increment = this.increment.bind(this)` line in the `constructor` function. Just like in jQuery, when someone clicks and we call `increment`, the value of `this` is changed. Inside that function, `this` now refers to the click event object, instead of to our component. Since the click event object has no `setState` function defined, the call to `this.setState` isn't going to work.
 
 We need a way to force `this` to still refer to our `Counter` component, even when it is called because of a click event. To do this, we use the `bind` function. `bind` can be called on any function in JavaScript and it will force that function's `this` to *always* refer to whatever you pass as the first argument to `bind`.
 
@@ -146,7 +146,7 @@ So, when we go to the page for this React app, here is what happens:
 2. `index.js` gets run. The `ReactDOM.render` function finds the div with an id of `root`, and puts the `App` component into it.
 3. When the `App` component is used in `ReactDOM.render`, a new instance of the `App` component is created, and then its `render` function is called.
 4. Since there are several references to the `Counter` component in the `App` component's `render` function, several instances of the `Counter` component will be created, and each of their `render` functions will be called individually. The result of those calls will be added to the parts of the page where `<Counter />` appears in the `render` function of `App`.
-5. When someone clicks on one of the buttons in one of the `Counter` components, that `Counter`'s `increment` function will be called, which will increase `state.count` by one and then rerender that component on the page.
+5. When someone clicks on one of the buttons in one of the `Counter` components, that `Counter`s `increment` function will be called, which will increase `state.count` by one and then rerender that component on the page.
 
 And that's React! Read over this description and the code to make sure this all makes sense, and when you feel reasonably comfortable with everything, let's start adding some new stuff.
 
@@ -178,7 +178,7 @@ When you pass props down in this way, they become accessible in the component th
 
 Props and state are pretty similar in React with one major exception. A slightly oversimplified explanation is that state can be changed (like we do in the `increment` function) and props cannot. When you pass something down to a component like `Counter` as a prop, it is impossible for `Counter` to change its value.
 
-So, using props, update the code so that the `increment` and `decrement` functions will increment and decrement by a different amount in each `Counter`, based on a prop that is passed down from `App`.
+So, using props, update the code in `Counter` to and the `increment` and `decrement` functions to increment and decrement by a different amount in each one, based on a prop that is passed down from `App`.
 
 # Release 3: Display the Total
 
@@ -188,9 +188,9 @@ The problem you'll face is that there is currently no way for the `App` componen
 
 In order for parents to know about the counts of their children, you'll have to rewrite your components so that all of the counter values are stored in `this.state` of the *parent* component, `App`, instead of the child `Counter` components. Then you'll have to pass down one counter value to each `Counter` as props. This way both parents and children will have access to that count data and it will be possible to calculate a total to display.
 
-This change creates a problem, though: as mentioned above, you can't change props, which means that once you make this change, your `increment` and `decrement` functions in `Counter` will no longer able to change the counter values.
+This change creates a problem, though: as mentioned above, you can't change props, which means your `increment` and `decrement` functions in `Counter` are no longer able to change the counter values.
 
-What you'll have to do to fix this is you'll have to define some increment and decrement functions in `App` instead of `Counter`. At this point, the counter values will be stored in the `App` component's `this.state` object, and as such they will be changeable by functions written in the `App` component. They will be props in the *child* components, and unchangeable there, but they will be *state* in the `App` component, so they *will* be changeable there.
+What you'll have to do to fix this is you'll have to define some increment and decrement functions in `App` instead of `Counter`. Because the counter values are now stored in the `App` component's `this.state` object, and as such they can be changed by functions written in the `App` component. They are props in the *child* components, and cannot be changed there, but they are *state* in the `App` component, so they *can* be changed there.
 
 Take some time to absorb this, it may seem weird at first. Then work on building some `increment` and `decrement` functions in `App` that can change individual count values in the `App` component's `this.state` object.
 
@@ -218,7 +218,7 @@ Because of this, if you start needing to pass arguments to `increment` and `decr
 
 When our function had no arguments, we could avoid calling it by just not putting parentheses after it (i.e. using `onClick={this.increment}` and not `onClick={this.increment()}`). But what do we do if we need to pass arguments? The only way to pass arguments is by, well, *passing* them (i.e. `onClick={this.increment(arg1, arg2)}`. But doing that is going to call the function, which we don't want to do.
 
-This is where the arrow syntax ([explanation](http://javascript.info/function-expressions-arrows#arrow-functions), [more explanation](http://javascript.info/arrow-functions)) comes in. Since `<MyComponent onClick={this.increment(arg1, arg2)} />` is going to call our function, we need a way to pass those arguments without doing that. To accomplish this, we can *wrap the function call in another function* with the arrow syntax. It would look something like this `<MyComponent onClick={() => this.increment(someArgument, someOtherArgument)} />`. That `() =>` syntax means that instead of calling the `increment` function with those arguments and passing the return value, you are instead wrapping the code where you call `increment` inside another function. This way, you're still passing a function, and you're still making sure it gets the desired arguments, but you avoid the problem of calling it right away. React can save that function until someone clicks and run it at that time, just like we want.
+This is where the arrow syntax ([link 1](http://javascript.info/function-expressions-arrows#arrow-functions), [link 2](http://javascript.info/arrow-functions)) comes in. Since `<MyComponent onClick={this.increment(arg1, arg2)} />` is going to call our function, we need a way to pass those arguments without doing that. To accomplish this, we can *wrap the function call in another function* with the arrow syntax. It would look something like this `<MyComponent onClick={() => this.increment(someArgument, someOtherArgument)} />`. That `() =>` syntax means that instead of calling the `increment` function with those arguments and passing the return value, you are instead wrapping the code where you call `increment` inside another function. This way, you're still passing a function, and you're still making sure it gets the desired arguments, but you avoid the problem of calling it right away. React can save that function until someone clicks and run it at that time, just like we want.
 
 
 # Release 4: Use the array `.map` function to display `Counter` components
@@ -229,11 +229,11 @@ Using [the array `.map` function](https://developer.mozilla.org/en-US/docs/Web/J
 
 ```
 <ul>
-  <% @pets.each do |pet| %>
-    <li>
-      <%= render partial: 'pet_info', locals: { pet: pet } %>
-    </li>
-  <% end %>
+	<% @pets.each do |pet| %>
+		<li>
+			<%= render partial: 'pet_info', locals: { pet: pet } %>
+		</li>
+	<% end %>
 </ul>
 ```
 
@@ -241,11 +241,11 @@ in React, you can write code like this (note the [arrow function syntax](http://
 
 ```
 <ul>
-  {this.state.pets.map((pet) =>
-    <li>
-      <PetInfo pet={pet} />
-    </li>
-  )}
+	{this.state.pets.map((pet) =>
+		<li>
+			<PetInfo pet={pet} />
+		</li>
+	)}
 </ul>
 ```
 
@@ -272,7 +272,7 @@ See the part that says `function callback(currentValue, index, array)`? That mea
 For your counters, this means there's a way to have access to both a counter's current value and its index in an array of counter values. You might find this useful for making sure your increment and decrement functions are incrementing the right counter value.
 
 
-# Release 5 (stretch): Add some buttons to add and remove counters
+# Release 5: Add some buttons to add and remove counters
 
 With all the above tools and knowledge in place, the last thing I want you to do is to add a way for users to add or remove `Counter`s from the page. You should be able to create new `Counter` components, and you should be able to delete `Counter`s from the existing list.
 
@@ -280,6 +280,6 @@ You'll need to think for this release about what is needed for this. What inform
 
 Think it through, and then start fiddling.
 
-# Release 6 (stretch): Refactor
+# Release 6: Refactor
 
 Does everything look nice? Make sure you commit your work once everything is working and then see if there are some ways to clean up any messy bits.
