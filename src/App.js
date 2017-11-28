@@ -16,6 +16,12 @@ class App extends React.Component {
 
     this.increment = this.increment.bind(this)
     this.decrement = this.decrement.bind(this)
+    this.remove = this.remove.bind(this)
+  }
+
+  remove(index) {
+    this.state.counters.splice(index, 1)
+    this.setState({ counters: this.state.counters })
   }
 
   increment(index) {
@@ -47,6 +53,7 @@ total() {
           count={ counterData.count}
           increment={() => this.increment(index)}
           decrement={() => this.decrement(index)}
+          remove={() => this.remove(index)}
          />
       )}
       <p>
