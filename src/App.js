@@ -19,7 +19,6 @@ class App extends React.Component {
   }
 
   increment(index) {
-    console.log(this)
     let currentCounter = this.state.counters[index]
     currentCounter.count += currentCounter.changeBy
 
@@ -44,9 +43,10 @@ total() {
       <div className="page-center-frame">
       {this.state.counters.map((counterData, index) =>
         <Counter
+          key={index}
           count={ counterData.count}
-          increment={ () => this.increment(index)}
-          decrement={ () => this.decrement(index)}
+          increment={() => this.increment(index)}
+          decrement={() => this.decrement(index)}
          />
       )}
       <p>
